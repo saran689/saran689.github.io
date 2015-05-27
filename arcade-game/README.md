@@ -1,5 +1,7 @@
 frontend-nanodegree-arcade-game
 ===============================
+Game link: http://saran689.github.io/arcade-game/index.html
+
 Rules:
 ======
 1. When the clock starts, player will have 5 lives and 0 gems. 30 minutes of playing time is allowed.
