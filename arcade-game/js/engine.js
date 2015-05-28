@@ -2,8 +2,7 @@ var Engine = (function(global) {
   var doc = global.document,
     win = global.window,
     canvas = doc.createElement('canvas'),
-    ctx = canvas.getContext('2d'),
-    patterns = {},
+    context = canvas.getContext('2d'),
     startTime,
     lastTime;
 
@@ -16,23 +15,19 @@ var Engine = (function(global) {
   function main() {
     var now = Date.now(),
       dt = (now - lastTime) / 1000.0;
-   
     var msPlayedTime = 0;
     update(dt);
-    render();
+    render(context);
 
     lastTime = now;
     win.requestAnimationFrame(main);
   }
 
   function init() {
-
     reset();
     startTime = Date.now();
     lastTime = Date.now();
-    
     playedTime = 0;
-
     main();
   }
 
@@ -43,13 +38,13 @@ var Engine = (function(global) {
 
   function updateEntities(dt) {
     allEnemies.forEach(function(enemy) {
-      enemy.update(dt);
+      enemy.update(dt,enemySpeed,player,gameLife);
     });
-    player.update();
-    gem.update();
+    player.update(gameLife);
+    gem.update(gemPosX,posY,gemImages,player,gameScore,gameLife);
   }
 
-  function render() {
+  function render(ctx) {
     var rowImages = [
         'images/water-block.png',
         'images/stone-block.png',
@@ -69,13 +64,11 @@ var Engine = (function(global) {
     }
     ctx.drawImage(Resources.get('images/background.png'), 0, 10);
     ctx.drawImage(Resources.get('images/background.png'), 0, 590);
-
-    displayTime();
-
-    renderEntities();
+    displayTime(ctx);
+    renderEntities(ctx);
   }
 
-  function displayTime() {
+  function displayTime(ctx) {
     ctx.textAlign = "left";
     ctx.font="30px Arial";
     ctx.fillStyle ="#F67841";
@@ -87,19 +80,18 @@ var Engine = (function(global) {
     playedTime = msToTime(msPlayedTime);
     ctx.fillText("Time:",700, 40);
     ctx.strokeText("Time:",700, 40);
-    //ctx.textAlign = "right";
     ctx.fillText(playedTime, 780, 40);
     ctx.strokeText(playedTime, 780, 40);
   }
 
-  function renderEntities() {
+  function renderEntities(ctx) {
     allEnemies.forEach(function(enemy) {
-      enemy.render();
+      enemy.render(ctx);
     });
-    player.render();
-    gem.render();
-    gameScore.render();
-    gameLife.render();
+    player.render(ctx);
+    gem.render(ctx);
+    gameScore.render(ctx);
+    gameLife.render(ctx);
   }
 
   function reset() {
@@ -141,5 +133,5 @@ var Engine = (function(global) {
   ]);
   Resources.onReady(init);
 
-  global.ctx = ctx;
+  global.context = context;
 })(this);

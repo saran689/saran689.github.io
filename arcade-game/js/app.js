@@ -1,4 +1,4 @@
-var enemyPosY = [60, 143, 226];
+var posY = [60, 143, 226];
 var enemySpeed = [100, 130, 160, 200, 250, 300, 400];
 var gemPosX = [0, 101, 202, 303, 404, 505, 606, 707, 808];
 var gemImages = ['images/Gem-Orange.png', 'images/Gem-Blue.png', 'images/Gem-Green.png'];
@@ -14,18 +14,19 @@ var allowedTime = 1800000;
 /**
  * ENEMY our player must avoid.
  */
-var Enemy = function() {
+var Enemy = function(speed,ypos) {
   this.sprite = 'images/enemy-bug.png';
   this.x = -100;
-  this.y = enemyPosY[Math.floor(Math.random() * 3)];
-  this.speed = enemySpeed[Math.floor(Math.random() * 7)];
+  this.y = ypos[Math.floor(Math.random() * 3)];
+  // Speed is randomly selected from the global Speed [] using the following calculation
+  this.speed = speed[Math.floor(Math.random() * 7)];
 };
 /** 
  * Updates the enemy's position.
  * And resets player when collision occurs.
  * @param dt A time delta between ticks.
  */
-Enemy.prototype.update = function(dt) {
+Enemy.prototype.update = function(dt,speed,plyr,life) {
   // You should multiply any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
@@ -33,7 +34,8 @@ Enemy.prototype.update = function(dt) {
   if (this.x > 960) {
     this.x = -100;
     this.y = this.y + 83;
-    this.speed = enemySpeed[Math.floor(Math.random() * 7)];
+    // Speed is randomly selected from the global Speed [] using the following calculation
+    this.speed = speed[Math.floor(Math.random() * 7)];
     if (this.y > 226) {
       this.y = 60;
     }
@@ -61,24 +63,24 @@ Enemy.prototype.update = function(dt) {
     this.tileX = 1;
   }
 
-  if (player.x === this.tileX && player.y === this.y) {
-    player.reset();
-    gameLife.decrease();
+  if (plyr.x === this.tileX && plyr.y === this.y) {
+    plyr.reset();
+    life.decrease();
   }
 };
 /**
  * Renders enemy on the screen.
  */
-Enemy.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+Enemy.prototype.render = function(context) {
+  context.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 
 /**
  * Player class
  */
-var Player = function() {
-  this.pImg = playerImages[Math.floor(Math.random() * 5)];
+var Player = function(playerimg) {
+  this.pImg = playerimg[Math.floor(Math.random() * 5)];
   this.x = 404;
   this.y = 392;
 };
@@ -87,7 +89,7 @@ var Player = function() {
  * The player's position is updated by the direction of ctlKey value.
  * The player's position resets when reach the water.
  */
-Player.prototype.update = function() {
+Player.prototype.update = function(life) {
   if (this.ctlKey === 'left' && this.x !== 0) {
     this.x = this.x - 101;
   } else if (this.ctlKey === 'right' && this.x != 808) {
@@ -101,7 +103,7 @@ Player.prototype.update = function() {
 
   if (this.y < 60) {
     this.reset();
-    gameLife.decrease();
+    life.decrease();
   }
 };
 /**
@@ -114,8 +116,8 @@ Player.prototype.reset = function() {
 /**
  * Renders the player on the screen.
  */
-Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.pImg), this.x, this.y);
+Player.prototype.render = function(context) {
+  context.drawImage(Resources.get(this.pImg), this.x, this.y);
 };
 /**
  * Sets control key for updating player's postion.
@@ -131,37 +133,37 @@ Player.prototype.handleInput = function(key) {
  * Time is changeable (allowedTime in ms)
  * Gems appear randomly, and for every gem the player collects, 1 enemy is created.
  */
-var Gem = function() {
-  this.gemImg = gemImages[Math.floor(Math.random() * 3)];
-  this.x = gemPosX[Math.floor(Math.random() * 9)];
-  this.y = enemyPosY[Math.floor(Math.random() * 3)];
+var Gem = function(xpos,ypos,gemimg) {
+  this.gemImg = gemimg[Math.floor(Math.random() * 3)];
+  this.x = xpos[Math.floor(Math.random() * 9)];
+  this.y = ypos[Math.floor(Math.random() * 3)];
   this.count = 0;
+  this.raise = 5;
 };
 /** 
  * Updates gem's position.
  * Gem's position will reset whenever player touches it.
  */
-Gem.prototype.update = function() {
-  if (player.x === this.x && player.y === this.y) {
-    this.gemImg = gemImages[Math.floor(Math.random() * 3)];
-    this.x = gemPosX[Math.floor(Math.random() * 9)];
-    this.y = enemyPosY[Math.floor(Math.random() * 3)];
+Gem.prototype.update = function(xpos,ypos,gemimg,plyr,gamescr,glife) {
+  if (plyr.x === this.x && plyr.y === this.y) {
+    this.gemImg = gemimg[Math.floor(Math.random() * 3)];
+    this.x = xpos[Math.floor(Math.random() * 9)];
+    this.y = ypos[Math.floor(Math.random() * 3)];
     if (allEnemies.length < 20) {
-      allEnemies.push(new Enemy());
+      allEnemies.push(new Enemy(enemySpeed,ypos));
     }
-    gameScore.score++;
-    gem.count++;
-    if (gameScore.score > 5) {
-      //console.log("calling score.decrease:"+gameScore.score+" and "+gameLife.life);
-      gameScore.decrease(5);
+    gamescr.score++;
+    this.count++;
+    if (gamescr.score > this.raise) {
+      gamescr.decrease(this.raise,glife);
     }
   }
 };
 /**
  * Renders the gem on the screen.
  */
-Gem.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.gemImg), this.x, this.y);
+Gem.prototype.render = function(context) {
+  context.drawImage(Resources.get(this.gemImg), this.x, this.y);
 };
 
 
@@ -177,22 +179,20 @@ var Score = function() {
 /**
  * Decrease score by 5 and add a life.
  */
-Score.prototype.decrease = function(n) {
+Score.prototype.decrease = function(n,glife) {
   if (this.score > n) {
     this.score = this.score - n;
-    gameLife.life++;
-    //console.log("After Score.dcrease: "+ this.score+" and life =" +gameLife.life+ "and gem count="+gem.count);
+    glife.life++;
   }
 };
 
 /**
  * Renders Score on the screen.
  */
-Score.prototype.render = function() {
+Score.prototype.render = function(context) {
   var x = 0;
-  //console.log("current score is " + this.score);
   for (var i = 0; i < this.score; i++) {
-      ctx.drawImage(Resources.get(this.scoreImg), x, 10);
+      context.drawImage(Resources.get(this.scoreImg), x, 10);
       x = x + 50;
   } 
 };
@@ -206,29 +206,29 @@ var Life = function() {
 /**
  * Renders life on the screen.
  */
-Life.prototype.render = function() {
+Life.prototype.render = function(context) {
   var x = 0;
   for (var i = 0; i < this.life; i++) {
-    ctx.drawImage(Resources.get(this.lifeImg), x, 590);
+    context.drawImage(Resources.get(this.lifeImg), x, 590);
     x = x + 50;
   }
   
   // Game ends in allowedTime/60000 minutes or when life=0
   // To increase playtime value, change allowedTime value in line 12
   if (this.life === 0 && msPlayedTime < allowedTime) {
-    ctx.drawImage(Resources.get('images/gameover.png'), 0, 15);
-    ctx.font = '30px Arial';
-    ctx.fillStyle = 'white';
-    ctx.fillText("You collected "+gem.count+" gems; but no lives left!",200,420);
-    ctx.fillText("Reload page to play again.",200,480);
-    ctx.drawImage(Resources.get('images/background.png'), 0, 590);
+    context.drawImage(Resources.get('images/gameover.png'), 0, 15);
+    context.font = '30px Arial';
+    context.fillStyle = 'white';
+    context.fillText("You collected "+gem.count+" gems; but no lives left!",200,420);
+    context.fillText("Reload page to play again.",200,480);
+    context.drawImage(Resources.get('images/background.png'), 0, 590);
   } else if (msPlayedTime >= allowedTime) {
-    ctx.drawImage(Resources.get('images/gameover.png'), 0, 15);
-    ctx.font = '30px Arial';
-    ctx.fillStyle = 'white';
-    ctx.fillText("You collected "+gem.count+" gems in "+allowedTime/60000.0+" minute(s)",200,420);
-    ctx.fillText("Reload page to play again.",200,480);
-    ctx.drawImage(Resources.get('images/background.png'), 0, 590);
+    context.drawImage(Resources.get('images/gameover.png'), 0, 15);
+    context.font = '30px Arial';
+    context.fillStyle = 'white';
+    context.fillText("You collected "+gem.count+" gems in "+allowedTime/60000.0+" minute(s)",200,420);
+    context.fillText("Reload page to play again.",200,480);
+    context.drawImage(Resources.get('images/background.png'), 0, 590);
   }
 };
 /**
@@ -244,14 +244,14 @@ Life.prototype.decrease = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var enemyA = new Enemy();
-var enemyB = new Enemy();
-var enemyC = new Enemy();
-var enemyD = new Enemy();
+var enemyA = new Enemy(enemySpeed,posY);
+var enemyB = new Enemy(enemySpeed,posY);
+var enemyC = new Enemy(enemySpeed,posY);
+var enemyD = new Enemy(enemySpeed,posY);
 var allEnemies = [enemyA, enemyB, enemyC, enemyD];
 
-var player = new Player();
-var gem = new Gem();
+var player = new Player(playerImages);
+var gem = new Gem(gemPosX,posY,gemImages);
 var gameScore = new Score();
 var gameLife = new Life();
 
