@@ -5,20 +5,20 @@ body {
 }
 h1 {
   font-size: 3em;
+  font-family: Calibri;
   display: block;
   pointer-events: none;
 }
-h3 {
-  font-size: 1.2em;
-  font-style: italic;
-  color: #FF0000;
-  display: block;
-  pointer-events: none;
-}
+
+ 
 #desc-box {
   display: block;
 }
 #mobile-box {
+  display: none;
+}
+
+#instructions {
   display: none;
 }
 
@@ -31,7 +31,29 @@ h3 {
     font-size: 1.5em;
     font-weight: bold;
   }
-  canvas {
+ 
+ canvas {
     display: none;
-  }
+ }
 }
+
+@media (min-width: 951px) {
+  #instructions {
+    display: block;
+    margin-top: 10px;
+  }
+  .instr {
+    font-size: 1.0em;
+    font-style: italic;
+    font-family: Calibri;
+    color: #ff0000;
+    pointer-events: none;
+  } 
+  canvas {
+    font-size: 3.0em;
+    font-family: Calibri;
+    display: block;
+ }
+}
+ 
+
