@@ -1,9 +1,10 @@
 ## Website Performance Optimization portfolio project
-Analyze the following website on pagespeed insights: https://developers.google.com/speed/pagespeed/insights/
+Part1: Analyze the following website on pagespeed insights: https://developers.google.com/speed/pagespeed/insights/
 
 WEBSITE: http://saran689.github.io/mobile-portfolio/
 
-
+Part2: 
+In views/js/main.js, comments such as "P4 comment:" indicate where the code changes for Efficiency were made.
 ***************************************
 ORIGINAL UDACITY REQUIREMENTS/ RUBRIC:*
 ***************************************
