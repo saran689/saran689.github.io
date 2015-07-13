@@ -4,6 +4,8 @@
 -box-sizing:border-box;
 }
 
+body {font-family:"Trebuchet MS", Helvetica, sans-serif; background:#000;}
+.container {background-color:rgba(240,60,60,0.8);}
 input {
 background:grey;
 font-size:18px;
@@ -12,6 +14,7 @@ font-size:18px;
 form {
 display:inline-block;
 }
+
 
 .centered {
 text-align:center;
