@@ -8,8 +8,6 @@ pre, code { font-family: monospace, monospace; font-size: 1em; }
 ul, ol { margin: 1em 0; padding: 0 0 0 20px; }
 img { border: 0; max-width: 100%; }
 
-header, footer { max-width: 45em; margin: 0 auto; }
-
 header { padding: 0 0.5em; color: #C90B0B; }
 header img { border-radius: 40px; float: left; }
 header p { font-size:1.5em; font-weight: bold; padding-left: 4em;}
