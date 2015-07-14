@@ -515,7 +515,8 @@ document.addEventListener('DOMContentLoaded', function() {
   elem.src = "images/pizza.png";
   elem.style.height = "100px";
   elem.style.width = "73.333px";
-  for (var i = 0; i < 200; i++) {
+  //P4 comment: reduce pizza count to 25
+  for (var i = 0; i < 25; i++) {
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);

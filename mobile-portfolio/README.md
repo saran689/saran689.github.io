@@ -3,6 +3,9 @@ Part1: Analyze the following website on pagespeed insights: https://developers.g
 
 WEBSITE: http://saran689.github.io/mobile-portfolio/
 
+Other sites used:
+To optimize images: http://www.freshpixels.net/upload.php
+
 Part2: 
 In views/js/main.js, comments such as "P4 comment:" indicate where the code changes for Efficiency were made.
 ***************************************
