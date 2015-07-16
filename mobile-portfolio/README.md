@@ -1,13 +1,33 @@
-## Website Performance Optimization portfolio project
-Part1: Analyze the following website on pagespeed insights: https://developers.google.com/speed/pagespeed/insights/
+## Website Performance Optimization portfolio project##
+#######################################################
+Part 1: 
+Analyze the following website on pagespeed insights: https://developers.google.com/speed/pagespeed/insights/
 
 WEBSITE: http://saran689.github.io/mobile-portfolio/
 
 Other sites used:
-To optimize images: http://www.freshpixels.net/upload.php
+To optimize images: 
+https://tinypng.com/
+http://www.freshpixels.net
 
-Part2: 
-In views/js/main.js, comments such as "P4 comment:" indicate where the code changes for Efficiency were made.
+
+Parts 2 & 3: 
+In views/js/main.js, search for "P4 comment:" This indicates where the code changes for Efficiency were made.
+
+Changes/comments to main.js & pizza.html briefly:
+1. Inline-d the style.css into pizza.html
+2. Added backface-visibility:hidden to .mover class CSS
+3. Reduced number of moving pizzas from 200 to 35.
+4. Made requestAnimationFrame calls to updatePostions function.
+5. requestAnimationFrame(updatePositions) is called if the items[i] object is within 
+   the viewing window Height.
+6. movrTop[] stores all the values of offsetTop for the items in the mover class.
+7. If lastScrollY > movrTop[i] - halfwindowheight, then style.left will be performed.
+8. Replaced querySelectorAll with getElementsByClassName.
+9. Instead of using document.body.scrollTop which forces re-flow and re-layout, I used 
+   a fakeScrollTop which I calculate using the frame count (frame - 1)*31. 
+10. All computations, assignments that can be brought out of the for loops are brought out.
+11. All changes were tested using Dev Tools locally, before uploading to github.io repo
 ***************************************
 ORIGINAL UDACITY REQUIREMENTS/ RUBRIC:*
 ***************************************
