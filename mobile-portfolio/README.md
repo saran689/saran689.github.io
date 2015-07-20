@@ -18,29 +18,33 @@ NOTES:
 Made JavaScript async for blocking scripts.Minified CSS and made inline; media queries added for print.
 Made analytics js inline. Open Sans Web Fonts removed. Optimized Images (compressed/resized).
 Moved all script tags to end of body tag.
+pizzeria.jpg resized and made small-pizzeria.jpg for index.html.
 *******
 PARTS 2 & 3: 
 Requirements: pizza.html 60FPS & Time to resize pizzas under 5s
 
 RESULTS: 
-Chrome Dev Tools(~60FPS on average) while scrolling and Time to resize pizzas = 1.48ms (4 resize events).
+Chrome Dev Tools(~60FPS on average) while scrolling and Time to resize pizzas = 1.01ms (4 resize events).
 
 NOTES:
 In views/js/mainCommented.js, search for "P4 comment:" This indicates where the code changes for Efficiency were made.
 
 Main Changes/comments to main.js & pizza.html:
 1. Inline-d the style.css into pizza.html
-2. Added src, width, height of pizza.png, backface-visibility:hidden to .mover class CSS
-3. Reduced number of moving pizzas from 200 to 25.
+2. Added src, width, height of pizza.png, transform: translateZ(0); transform: translate3d(0,0,0);
+  backface-visibility:hidden to .mover class CSS
+3. Reduced number of moving pizzas from 200 to 40.
 4. Reduced number of random pizzas from 100 to (more realistic count) 20.
 5. Made requestAnimationFrame calls to updatePostions() via onScroll().
 6. Replaced querySelectorAll with getElementsByClassName.
 7. Populate moving pizzas in items[], and random pizzas in pList[], as part of DOMContentLoaded event.
-8. Populate windowwidth(ww) and one of the random pizza offsetWidth(oldwidth=elemOW) as part of DOMContentLoaded event.
-9. Instead of using document.body.scrollTop which forces re-flow and re-layout, I used 
-   a fakeScrollTop which is calculated using the frame count (frame - 1)*31. 
-10. All computations, assignments that can be brought out of the for loops are brought outside.
-11. All changes were tested using Dev Tools locally, before uploading to github.io repo.
+8. Populate items[] length, and random pizzas in pList[] length into variables itemsLen and pListLen respectively, 
+  as part of DOMContentLoaded event.
+9. Populate windowwidth(ww) and one of the random pizza offsetWidth(oldwidth=elemOW) as part of DOMContentLoaded event.
+10. A new variable winScrollTopCalc, is populated as document.body.scrollTop/1250. 
+11. document.body.scrollTop/1250 is brought out of the loop to be executed once and divided by 1250. 
+12. All computations, assignments that can be brought out of the for loops are brought outside.
+13. All changes were tested using Dev Tools locally, before uploading to github.io repo.
 
 
 ***************************************
