@@ -378,9 +378,10 @@ var pizzaElementGenerator = function(i) {
   return pizzaContainer;
 };
 
-//P4 comment: Define elemOW, windowwidth(ww), pList[]
+//P4 comment: Define elemOW, windowwidth(ww), pList[], pListLen
 var elemOW;
 var pList = [];
+var pListLen = 0;
 var ww;
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
@@ -445,9 +446,10 @@ var resizePizzas = function(size) {
 //P4 comment: instead of accessing the DOM with querySelectorAll
 //P4 comment: calculate dx, newwidth only once outside the loop
 //P4 comment: pList[0].offetWidth is elemOW, got from DOMContentLoaded
+//P4 comment: pList.length is pListLen, got from DOMContentLoaded
     var dx = determineDx(size);
     var newwidth = (elemOW + dx) + 'px';
-    for (var i = 0; i < pList.length; i++) {
+    for (var i = 0; i < pListLen; i++) {
     //for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
       //var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
       //var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
@@ -484,11 +486,12 @@ console.log("Time to generate pizzas on load: " + timeToGenerate[0].duration + "
 
 // Iterator for number of times the pizzas in the background have scrolled.
 // Used by updatePositions() to decide when to log the average time per frame
-//P4 comment: Define fakescrolltop,basLeft[]
+//P4 comment: Define basLeft[],items[], itemsLen,winScrollTopCalc
 var basLeft = [];
-var fakescrolltop = 0
 var frame = 0;
 var items = [];
+var itemsLen = 0;
+var winScrollTopCalc = 0;
 
 // Logs the average amount of time per 10 frames needed to move the sliding background pizzas on scroll.
 function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
@@ -501,11 +504,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 }
 
 function onScroll() {
-  //lastScrollY = window.scrollY;
-  //if (!ticking) {
     requestAnimationFrame(updatePositions);
-    //ticking = true;
-  //}
 }
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
@@ -515,12 +514,13 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-//P4 comment: fakescrolltop will replace scrollTop value
-  fakescrolltop = (frame - 1) * 31;
+//P4 comment: winScrollTopCalc to speed up calc
+  winScrollTopCalc = document.body.scrollTop / 1250;
   //var items = document.getElementsByClassName('mover');
   //var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((fakescrolltop / 1250) + (i % 5));
+//P4 comment: itemsLen replacing items.length
+  for (var i = 0; i < itemsLen; i++) {
+    var phase = Math.sin(winScrollTopCalc + (i % 5));
     //var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
     items[i].style.left = basLeft[i] + 100 * phase + 'px';
     //console.log(basLeft[i],fakescrolltop,phase,items[i].style.left)
@@ -550,7 +550,10 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < 25; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
+//P4 comment: Made small-pizzeria.jpg for index.html and compressed original
+//  pizzeria/jpg image for use in pizza.html
 //P4 comment: moved pizza.png, dimensions to css in pizza.html .mover class
+//P4 comment: using transform: translateZ(0); transform: translate3d(0,0,0); in CSS 
 //P4 comment: also using backface-visibility:hidden; in CSS 
     //elem.src = "images/pizza.png";
     //elem.style.height = "100px";
@@ -565,8 +568,11 @@ document.addEventListener('DOMContentLoaded', function() {
     items.push(elem);
     document.querySelector("#movingPizzas1").appendChild(elem);
     pList = document.getElementsByClassName("randomPizzaContainer");
-    ww = document.querySelector("#randomPizzas").offsetWidth;
-    elemOW = pList[0].offsetWidth;
   }
+//P4: brought the 4 lines below out of the for loop
+  ww = document.querySelector("#randomPizzas").offsetWidth;  
+  elemOW = pList[0].offsetWidth;
+  itemsLen = items.length;
+  pListLen = pList.length;
   updatePositions();
 });
