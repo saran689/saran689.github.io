@@ -471,9 +471,8 @@ window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
 //P4 comment: get pizzasDiv out of loop;need just a reference to randomPizzas
-//P4 comment: Reduced random pizzas from 100 to 20
 var pizzasDiv = document.getElementById("randomPizzas");
-for (var i = 2; i < 20; i++) {
+for (var i = 2; i < 100; i++) {
   //var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
@@ -546,9 +545,14 @@ window.addEventListener('scroll', onScroll);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-//P4 comment: Reduced background pizzas from 200 to 25
-  for (var i = 0; i < 25; i++) {
-    var elem = document.createElement('img');
+//P4 comment: initialize elem outside the loop
+ var elem;
+//P4 comment: initialize movingPizzas using getElementById 
+//P4 comment: instead of querySelector, outside the loop
+ var movingPizzas = document.getElementById('movingPizzas1');
+//P4 comment: Reduced background pizzas from 200 to 40
+  for (var i = 0; i < 40; i++) {
+    elem = document.createElement('img');
     elem.className = 'mover';
 //P4 comment: Made small-pizzeria.jpg for index.html and compressed original
 //  pizzeria/jpg image for use in pizza.html
@@ -566,11 +570,14 @@ document.addEventListener('DOMContentLoaded', function() {
 //P4 comment: get pList[], windowwidth populated for changePizzaSizes() 
 //P4 comment: get offsetWidth(elemOW) for 1 element instead of for all items
     items.push(elem);
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
+    //document.querySelector("#movingPizzas1").appendChild(elem);
     pList = document.getElementsByClassName("randomPizzaContainer");
   }
-//P4: brought the 4 lines below out of the for loop
-  ww = document.querySelector("#randomPizzas").offsetWidth;  
+//P4: brought the lines below out of the for loop
+//P4: replaced querySelector with getElementById
+  ww = document.getElementById('randomPizzas').offsetWidth;
+  //ww = document.querySelector("#randomPizzas").offsetWidth;  
   elemOW = pList[0].offsetWidth;
   itemsLen = items.length;
   pListLen = pList.length;

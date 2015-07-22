@@ -34,17 +34,21 @@ Main Changes/comments to main.js & pizza.html:
 2. Added src, width, height of pizza.png, transform: translateZ(0); transform: translate3d(0,0,0);
   backface-visibility:hidden to .mover class CSS
 3. Reduced number of moving pizzas from 200 to 40.
-4. Reduced number of random pizzas from 100 to (more realistic count) 20.
+4. Kept number of random pizzas back at 100.
 5. Made requestAnimationFrame calls to updatePostions() via onScroll().
-6. Replaced querySelectorAll with getElementsByClassName.
-7. Populate moving pizzas in items[], and random pizzas in pList[], as part of DOMContentLoaded event.
-8. Populate items[] length, and random pizzas in pList[] length into variables itemsLen and pListLen respectively, 
+6. Initialized elem outside of the for loop in DOMContentLoaded event.
+7. Replaced querySelectorAll with getElementsByClassName.
+8. Replaced querySelector with getElementById in movingPizzas1 appendChild line and initialized it outside the loop.
+9. Populate moving pizzas in items[], and random pizzas in pList[], as part of DOMContentLoaded event.
+10. Populate items[] length, and random pizzas in pList[] length into variables itemsLen and pListLen respectively, 
   as part of DOMContentLoaded event.
-9. Populate windowwidth(ww) and one of the random pizza offsetWidth(oldwidth=elemOW) as part of DOMContentLoaded event.
-10. A new variable winScrollTopCalc, is populated as document.body.scrollTop/1250. 
-11. document.body.scrollTop/1250 is brought out of the loop to be executed once and divided by 1250. 
-12. All computations, assignments that can be brought out of the for loops are brought outside.
-13. All changes were tested using Dev Tools locally, before uploading to github.io repo.
+11. Populate windowwidth(ww) and one of the random pizza offsetWidth(oldwidth=elemOW) as part of DOMContentLoaded event.
+12. Moved many of the assignment lines outside of the for loop in DOMContentLoaded event.
+13. Replaced querySelector with getElementById in randomPizzas offsetWidth line.
+14. A new variable winScrollTopCalc, is populated as document.body.scrollTop/1250. 
+15. document.body.scrollTop/1250 is brought out of the loop to be executed once and divided by 1250. 
+16. All computations, assignments that can be brought out of the for loops are brought outside.
+17. All changes were tested using Dev Tools locally, before uploading to github.io repo.
 
 
 ***************************************

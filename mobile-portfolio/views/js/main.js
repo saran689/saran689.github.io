@@ -432,7 +432,7 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); 
 
 var pizzasDiv = document.getElementById("randomPizzas");
-for (var i = 2; i < 20; i++) {
+for (var i = 2; i < 100; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -479,17 +479,19 @@ window.addEventListener('scroll', onScroll);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  var elem;
+  var movingPizzas = document.getElementById('movingPizzas1');
   for (var i = 0; i < 40; i++) {
-    var elem = document.createElement('img');
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.basicLeft = (i % cols) * s;
     basLeft[i] = elem.basicLeft;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     items.push(elem);
-    document.querySelector("#movingPizzas1").appendChild(elem);
-    pList = document.getElementsByClassName("randomPizzaContainer");
+    movingPizzas.appendChild(elem);
   }
-  ww = document.querySelector("#randomPizzas").offsetWidth;  
+  pList = document.getElementsByClassName("randomPizzaContainer");
+  ww = document.getElementById('randomPizzas').offsetWidth;
   elemOW = pList[0].offsetWidth;
   itemsLen = items.length;
   pListLen = pList.length;
