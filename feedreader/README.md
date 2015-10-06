@@ -2,6 +2,8 @@
 ####################
 URL: http://saran689.github.io/feedreader/index.html
 
+Instructions: Copy the above URL to your browser and hit Enter.
+
 Using Jasmine documentation test suites created and all specs were tested.
 ********************************************************************************
 # Project Overview

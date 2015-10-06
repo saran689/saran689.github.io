@@ -10,9 +10,11 @@
 //var allFeeds = [];
 var allFeeds = [
     {
-        //name: null,
         name: 'Udacity Blog',
         url: 'http://blog.udacity.com/feeds/posts/default?alt=rss'
+    /*}, {
+        name: 'Udacity Blog',
+        url: 'http://blog.udacity.com/feeds/posts/default?alt=rss'*/
     }, {
         name: 'CSS Tricks',
         url: 'http://css-tricks.com/feed'
