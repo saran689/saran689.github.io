@@ -72,7 +72,8 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-        it('and when clicked', function() {
+        describe('and when clicked', function() {
+            
             //trigger a click event to test menu-hidden class behavior
             beforeEach(function() {
                 menuIcon.trigger('click');
@@ -129,6 +130,7 @@ $(function() {
             });
             expect(entryBeforeIt).not.toEqual(entryAfterIt);
             done();
+
         });
     });
 }());
